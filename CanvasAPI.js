@@ -17,13 +17,13 @@ const makeRequest = async (url, key, data, method = 'POST') => {
 
     if (response.ok) return response;
     if (response.status === 400)
-        throw `Bad request to ${url}`;
+        throw new Error(`Bad request to ${url}`);
     if (response.status === 401)
-        throw `Unathorized request to ${url}`;
+        throw new Error(`Unathorized request to ${url}`);
     if (response.status === 403)
-        throw `Forbidden request to ${url}`;
+        throw new Error(`Forbidden request to ${url}`);
     if (response.status === 404)
-        throw `No resource found at ${url}`;
+        throw new Error(`No resource found at ${url}`);
 }
 
 /**
@@ -60,7 +60,7 @@ export class BulkGradeUpdater {
         try {
             this.KEY = await makeRequest(`courses/`, apiKey, {}, 'GET');
         } catch (e) {
-            throw 'Invalid or unauthorized API key.';
+            throw new Error('Invalid or unauthorized API key.');
         }
         // Check that we can actually access the course and assignment requested
         await makeRequest(`courses/${courseId}`, apiKey, {}, 'GET');
