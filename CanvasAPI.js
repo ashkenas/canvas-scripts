@@ -74,7 +74,7 @@ export class BulkGradeUpdater {
      * Grade a particular student for the configured assignment.
      * @param {string|number} studentId ID of the student to grade
      * @param {number} grade Grade to give the student
-     * @param {string} comment Comment to leave on the submission.
+     * @param {string|undefined} comment Comment to leave on the submission.
      */
     addStudent(studentId, grade, comment) {
         if (!this.ENDPOINT)
@@ -87,9 +87,10 @@ export class BulkGradeUpdater {
             throw 'comment must be a string.'
 
         this.grade_data[studentId] = {
-            posted_grade: grade.toString(),
-            text_comment: comment
+            posted_grade: grade.toString()
         };
+        if (comment)
+            this.grade_data[studentId].text_comment = comment;
     }
 
     /**
