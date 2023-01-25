@@ -1,19 +1,22 @@
 import fetch from "node-fetch";
 
-const host = 'https://sit.instructure.com/api/v1';
+const host = 'https://sit.instructure.com/api/v1/';
 
 /**
  * Make a Canvas LMS REST request with credentials.
  */
 const makeRequest = async (url, key, data, method = 'POST') => {
-    const response = await fetch(host + url, {
-        body: JSON.stringify(data),
+    const options = {
         headers: {
             'Authorization': `Bearer ${key}`,
             'Content-type': 'application/json'
         },
         method: method
-    });
+    };
+    if (method.toLowerCase() !== 'GET')
+        options.body = JSON.stringify(data);
+
+    const response = await fetch(host + url, options);
 
     if (response.ok) return response;
     if (response.status === 400)
@@ -59,7 +62,7 @@ export class BulkGradeUpdater {
             throw 'assignmentId must be a string or number.'
         // Validate API key
         try {
-            this.KEY = await makeRequest(`courses/`, apiKey, {}, 'GET');
+            this.KEY = await makeRequest(`courses`, apiKey, {}, 'GET');
         } catch (e) {
             throw new Error('Invalid or unauthorized API key.');
         }
