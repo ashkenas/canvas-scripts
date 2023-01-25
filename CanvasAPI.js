@@ -9,7 +9,7 @@ const makeRequest = async (url, key, data, method = 'POST') => {
     const options = {
         headers: {
             'Authorization': `Bearer ${key}`,
-            'Content-type': 'application/json'
+            'Content-Type': 'application/json'
         },
         method: method
     };
@@ -62,7 +62,8 @@ export class BulkGradeUpdater {
             throw 'assignmentId must be a string or number.'
         // Validate API key
         try {
-            this.KEY = await makeRequest(`courses`, apiKey, {}, 'GET');
+            await makeRequest(`courses`, apiKey, {}, 'GET');
+            this.KEY = apiKey;
         } catch (e) {
             throw new Error('Invalid or unauthorized API key.');
         }
