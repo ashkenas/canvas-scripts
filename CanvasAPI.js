@@ -24,6 +24,7 @@ const makeRequest = async (url, key, data, method = 'POST') => {
         throw new Error(`Forbidden request to ${url}`);
     if (response.status === 404)
         throw new Error(`No resource found at ${url}`);
+    throw new Error(`Unexpected HTTP response code '${response.status}'`);
 }
 
 /**

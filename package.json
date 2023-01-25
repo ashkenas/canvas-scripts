@@ -1,5 +1,20 @@
 {
   "dependencies": {
     "node-fetch": "^3.3.0"
-  }
+  },
+  "name": "canvas-scripts",
+  "description": "Spoiler alert, it only wraps the single call I need to make grading students happen at a reasonable speed.",
+  "version": "0.0.1",
+  "main": "CanvasAPI.js",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ashkenas/canvas-scripts.git"
+  },
+  "author": "Jacob Ashkenas",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ashkenas/canvas-scripts/issues"
+  },
+  "homepage": "https://github.com/ashkenas/canvas-scripts#readme"
 }
