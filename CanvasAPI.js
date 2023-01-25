@@ -69,6 +69,8 @@ export class BulkGradeUpdater {
         // Everything checks out, finish initialization
         this.ENDPOINT = `courses/${courseId}/assignments/${assignmentId}/submissions/update_grades`;
         this.grade_data = {};
+
+        return this;
     }
 
     /**
