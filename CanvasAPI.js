@@ -13,7 +13,7 @@ const makeRequest = async (url, key, data, method = 'POST') => {
         },
         method: method
     };
-    if (method.toLowerCase() !== 'GET')
+    if (method.toLowerCase() !== 'get')
         options.body = JSON.stringify(data);
 
     const response = await fetch(host + url, options);
