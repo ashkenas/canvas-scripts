@@ -102,6 +102,8 @@ export class BulkGradeUpdater {
     async sendUpdate() {
         if (!this.ENDPOINT)
             throw 'Did not initialize (call setParameters), or initialization failed. Cannot send update.'
+        if (!Object.keys(this.grade_data).length)
+            return;
 
         await makeRequest(this.ENDPOINT, this.KEY, { grade_data: this.grade_data });
         this.grade_data = {};
