@@ -55,11 +55,11 @@ export class BulkGradeUpdater {
      */
     async setParameters(apiKey, courseId, assignmentId) {
         if (typeof apiKey !== 'string')
-            throw 'apiKey must be a string.'
+            throw new Error('apiKey must be a string.');
         if (typeof courseId !== 'string' && typeof courseId !== 'number')
-            throw 'courseId must be a string or number.'
+            throw new Error('courseId must be a string or number.');
         if (typeof assignmentId !== 'string' && typeof assignmentId !== 'number')
-            throw 'assignmentId must be a string or number.'
+            throw new Error('assignmentId must be a string or number.');
         // Validate API key
         try {
             await makeRequest(`courses`, apiKey, {}, 'GET');
@@ -81,17 +81,17 @@ export class BulkGradeUpdater {
      * Grade a particular student for the configured assignment.
      * @param {string|number} studentId ID of the student to grade
      * @param {number} grade Grade to give the student
-     * @param {string|undefined} comment Comment to leave on the submission.
+     * @param {string|undefined} comment (Optional) Comment to leave on the submission
      */
-    addStudent(studentId, grade, comment) {
+    addStudent(studentId, grade, comment = undefined) {
         if (!this.ENDPOINT)
-            throw 'Did not initialize (call setParameters), or initialization failed. Cannot add student.'
+            throw new Error('Did not initialize (call setParameters), or initialization failed. Cannot add student.');
         if (typeof studentId !== 'string' && typeof studentId !== 'number')
-            throw 'studentId must be a string or number.'
+            throw new Error('studentId must be a string or number.');
         if (typeof grade !== 'number')
-            throw 'grade must be a number.'
-        if (typeof comment !== 'string')
-            throw 'comment must be a string.'
+            throw new Error('grade must be a number.');
+        if (comment && typeof comment !== 'string')
+            throw new Error('comment must be a string.');
 
         this.grade_data[studentId] = {
             posted_grade: grade.toString()
@@ -101,15 +101,33 @@ export class BulkGradeUpdater {
     }
 
     /**
-     * Update all added students and clear stored data.
+     * Update queued student data.
+     * @param {string|number} studentId ID of the student to update
+     * @param {number|undefined} grade (Optional) New grade for student
+     * @param {string|undefined} comment (Optional) New comment for student
+     */
+    updateStudent(studentId, grade = undefined, comment = undefined) {
+        if (!(studentId in this.grade_data))
+            throw new Error('Student does not exist in queued data.');
+        if (grade && typeof grade !== 'number')
+            throw new Error('grade must be a number.');
+        if (comment && typeof comment !== 'string')
+            throw new Error('comment must be a string.');
+
+        if (grade !== undefined) this.grade_data[studentId].grade = grade;
+        if (comment === "") delete this.grade_data[studentId].text_comment;
+        else if (comment !== undefined) this.grade_data[studentId].text_comment = comment;
+    }
+
+    /**
+     * Update all added students.
      */
     async sendUpdate() {
         if (!this.ENDPOINT)
-            throw 'Did not initialize (call setParameters), or initialization failed. Cannot send update.'
+            throw new Error('Did not initialize (call setParameters), or initialization failed. Cannot send update.');
         if (!Object.keys(this.grade_data).length)
             return;
 
-        await makeRequest(this.ENDPOINT, this.KEY, { grade_data: this.grade_data });
-        this.grade_data = {};
+        return await makeRequest(this.ENDPOINT, this.KEY, { grade_data: this.grade_data });
     }
 };
