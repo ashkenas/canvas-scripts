@@ -1,7 +1,4 @@
 {
-  "dependencies": {
-    "node-fetch": "^3.3.0"
-  },
   "type": "module",
   "name": "canvas-scripts",
   "description": "Spoiler alert, it only wraps the single call I need to make grading students happen at a reasonable speed.",
@@ -17,5 +14,6 @@
   "bugs": {
     "url": "https://github.com/ashkenas/canvas-scripts/issues"
   },
-  "homepage": "https://github.com/ashkenas/canvas-scripts#readme"
+  "homepage": "https://github.com/ashkenas/canvas-scripts#readme",
+  "types": "./lib/main.d.ts"
 }

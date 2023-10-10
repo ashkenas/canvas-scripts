@@ -1,5 +1,3 @@
-import fetch from "node-fetch";
-
 const host = 'https://sit.instructure.com/api/v1/';
 
 /**
