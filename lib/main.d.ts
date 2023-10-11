@@ -7,7 +7,7 @@
  * updater.addStudent(1002, 100, "Full marks.");
  * await updater.sendUpdate();
  */
- export declare class BulkGradeUpdater {
+export declare class BulkGradeUpdater {
   /**
    * Do not use constructor alone. Also invoke `setParameters`.
    * @example
@@ -37,6 +37,7 @@
   updateStudent(studentId: string|number, grade?: number, comment?: string): void;
   /**
    * Update all added students.
+   * @param {boolean} [commentsAsFiles] Flag to upload comments as text files
    */
-  sendUpdate(): Promise<Response>;
+  sendUpdate(commentsAsFiles?: boolean): Promise<Response>;
 }
